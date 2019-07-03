@@ -1,0 +1,67 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: infra-int-testing-app
+metadata:
+  annotations:
+    description: deployment for Infra Integration client app
+  name: infra-int-testing-app
+objects:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: infra-int-testing-app
+      name: infra-int-testing-app
+    spec:
+      replicas: 1
+      selector:
+        app: infra-int-testing-app
+      template:
+        metadata:
+          labels:
+            app: infra-int-testing-app
+        spec:
+          containers:
+            - name: infra-int-testing-app
+              image: ' '
+              ports:
+                - containerPort: 8778
+                  name: jolokia
+              readinessProbe:
+                httpGet:
+                  path: /health
+                  port: 8081
+                initialDelaySeconds: 10
+              livenessProbe:
+                httpGet:
+                  path: /health
+                  port: 8081
+                initialDelaySeconds: 180
+              resources:
+                limits:
+                  cpu: "1.0"
+                  memory: 256Mi
+                requests:
+                  cpu: "0.2"
+                  memory: 256Mi
+              volumeMounts:
+                - name: application-config
+                  mountPath: /deployments/config
+          volumes:
+            - name: application-config
+              configMap:
+                name: infra-int-testing-app
+                defaultMode: 420
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: false
+            containerNames:
+              - infra-int-testing-app
+            from:
+              kind: ImageStreamTag
+              name: infra-int-testing-app:${APPLICATION_IMAGE_TAG}
+parameters:
+  - name: APPLICATION_IMAGE_TAG
+    value: latest
