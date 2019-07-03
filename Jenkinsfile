@@ -16,7 +16,7 @@ node('maven') {
     checkout scm
 
     stage('Build') {
-        sh "mvn -B clean install -DskipTests=true --settings configuration/settings.xml"
+        sh "mvn -B clean install --settings configuration/settings.xml"
     }
 
 }
