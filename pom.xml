@@ -118,9 +118,9 @@
 				<inherited>true</inherited>
 				<configuration>
 					<argLine>-DenableImageStreamDetection=true</argLine>
-					<excludes>
-						<exclude>**/*KT.java</exclude>
-					</excludes>
+					<includes>
+						<include>**/*KT.java</include>
+					</includes>
 				</configuration>
 			</plugin>
 
