@@ -65,7 +65,7 @@ Note: At this time the pipeline is assuming we are deploying the app to the `dat
 
 Start the pipeline build
 
-`oc start-build fuse-client-app-pipeline`
+`oc start-build infra-int-testing-app-pipeline`
 
 ## Integration Testing
 

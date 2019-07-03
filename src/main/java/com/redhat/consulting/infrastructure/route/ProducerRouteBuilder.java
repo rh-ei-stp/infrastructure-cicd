@@ -30,6 +30,11 @@ public class ProducerRouteBuilder extends RouteBuilder {
 			.log("${body}")
 			.to("produceramqp:" + queueName);
 		
+		from("direct:produceOneMessage")
+			.routeId("producerOneMessage")
+			.to("mock:wasSent")
+			.to("produceramqp:" + queueName);
+		
 		// @formatter:on
 
 
